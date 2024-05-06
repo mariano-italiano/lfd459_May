@@ -8,9 +8,9 @@ wget --user=LFtraining --password=Penguin2014 https://training.linuxfoundation.o
 https://training.linuxfoundation.org/cm/LFD459
 ```
 
----------------------------------------------
+```
 https://linux.thoughtindustries.com/redeem
 Course key: lfd459-grda-compendium-hwse-20240506
----------------------------------------------
+```
 
-GIT: https://github.com/mariano-italiano/lfd459_May.git
+GIT: `https://github.com/mariano-italiano/lfd459_May.git`
