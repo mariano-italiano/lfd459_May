@@ -1,0 +1,238 @@
+vi sidecar-pod.yaml
+kubectl apply -f sidecar-pod.yaml
+kubectl get pod
+kubectl exec -it sidecar-pod -- bash
+kubectl exec -it sidecar-pod -- sh
+kubectl exec -it sidecar-pod -c sidecar -- sh
+kubectl logs sidecar-pod 
+kubectl logs sidecar-pod  -c sidecar
+kubectl logs sidecar-pod --all-containers 
+vi sidecar-pod.yaml 
+vi init-pod.yaml
+kubectl apply -f init-pod.yaml
+kubectl get pod
+watch -n1 kubectl get pod
+vi init-pod.yaml
+kubectl replace --force -f init-pod.yaml
+watch -n1 kubectl get pod
+vi init-pod.yaml
+watch -n1 kubectl get pod
+kubectl replace --force -f init-pod.yaml
+watch -n1 kubectl get pod
+vi init-pod.yaml
+kubectl replace --force -f init-pod.yaml
+watch -n1 kubectl get pod
+vi init-web.yaml
+init-svc-.yaml
+vi init-svc-.yaml
+mv init-svc-.yaml init-svc.yaml
+vi init-web.yaml
+vi init-svc.yaml
+vi init-web.yaml
+kubectl apply -f init-web.yaml 
+watch -n1 kubectl get pod
+vi init-container-lab.yaml
+kubectl apply -f init-container-lab.yaml
+kubectl get pod
+kubectl get pod -o wide
+ls -la /etc/kubernetes/manifests/
+vi /etc/kubernetes/manifests/kube-apiserver.yaml
+sudo vi /etc/kubernetes/manifests/kube-apiserver.yaml
+sudo vi /etc/kubernetes/manifests/my-static-pod.yaml
+kubectl get pod
+kubectl delete pod my-static-pod-k8s-master 
+kubectl get pod
+cat /etc/hosts
+kubectl get pod
+kubectl get pod -o wide
+curl http://10.0.2.204
+kubectl get pod -o wide
+curl http://10.0.2.50
+kubectl get pod -o wide
+vi cluster-ip-pod.yaml
+ls 
+cat init-pod.yaml 
+vi clusterip-pod.yaml
+mv clusterip-pod.yaml nginx-pod.yaml
+vi nginx-pod.yaml
+vi cluster-svc.yaml
+kubectl apply -f nginx-pod.yaml 
+vi nginx-pod.yaml 
+kubectl apply -f nginx-pod.yaml 
+kubectl apply -f cluster-svc.yaml 
+kubectl get pod,svc,ep
+curl http://10.100.215.242
+curl http://10.100.215.242 -o wide
+kubectl get pod,svc,ep -o wide
+kubectl edit pod test-pod
+kubectl get pod,svc,ep -o wide
+curl http://10.100.215.242
+kubectl expose pod clusterip-pod --name nodeport-svc --type NodePort 
+kubectl expose pod clusterip-pod --name nodeport-svc --type NodePort --port 80
+kubectl describe svc nodeport-svc 
+kubectl edit svc nodeport-svc 
+kubectl get svc,ep,pod
+kubectl edit svc nodeport-svc 
+kubectl get svc,ep,pod
+ip a
+kubectl expose pod clusterip-pod --name lb-svc --type LoadBlaancer --external-ip 172.16.2.106 --port 80
+kubectl expose pod clusterip-pod --name lb-svc --type LoadBalancer --external-ip 172.16.2.106 --port 80
+kubectl edit svc lb-svc 
+kubectl get svc,ep,pod
+kubectl -n kube-system get deployments.apps 
+vi test-dns.yaml
+kubectl apply -f test-dns.yaml
+kubectl exec -it test-dns -- nslookup cluster-svc
+kubectl create ns app
+kubectl apply -f cluster-svc.yaml -n app
+kubectl get svc -n app
+kubectl edit svc -n app cluster-svc 
+kubectl delete -f cluster-svc.yaml -n app
+vi cluster-svc.yaml 
+vi cluster2-svc.yaml
+kubectl apply -f cluster2-svc.yaml -n app
+kubectl get svc -n app
+kubectl exec -it test-dns -- nslookup cluster2-svc
+kubectl exec -it test-dns -- nslookup cluster2-svc.app.svc.cluster.local
+curl http://10.104.72.74
+kubectl -n app get svc,ep,pod
+kubectl get ingressclasses.networking.k8s.io 
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/baremetal/deploy.yaml
+watch -n1 kubectl get all -n ingress-nginx
+kubectl -n ingress-nginx edit svc ingress-nginx-controller
+sudo iptables -L -n -v
+kubectl get svc -A
+sudo iptables -L -n -v | grep 172.16.2.106
+kubectl -n ingress-nginx edit svc ingress-nginx-controller
+kubectl patch svc ingress-nginx-controller -n ingress-nginx --type='json' -p='[{"op": "replace", "path": "/spec/type", "value": "LoadBalancer"}]'
+kubectl -n ingress-nginx edit svc ingress-nginx-controller
+kubectl patch svc ingress-nginx-controller -n ingress-nginx -p '{"spec":{"externalIPs":["172.16.2.106"]}}'
+kubectl get svc -n ingress-nginx 
+kubectl get ingressclasses.networking.k8s.io 
+kubectl run web1 --image=nginx
+kubectl run web2 --image nginx
+vi index-cars.html
+vi index-flowers.html
+kubectl cp --help
+kubectl cp index-cars.html web1:/usr/share/nginx/html/index.html
+kubectl cp index-flowers.html web2:/usr/share/nginx/html/index.html
+kubectl get pods -o wide
+curl http://10.0.2.39
+kubectl expose pod web1 --name web1-svc --port 80
+kubectl expose pod web2 --name web2-svc --port 80
+kubectl get svc,pod,ep
+kubectl get svc,pod,ep -o wide
+vi web-ingress.yaml
+kubectl apply -f web-ingress.yaml
+kubectl get deployments.apps -n ingress-nginx 
+kubectl scale deployments.apps -n ingress-nginx --replicas 7
+kubectl scale deployments.apps -n ingress-nginx ingress-nginx-controller --replicas 7
+kubectl get deployments.apps -n ingress-nginx 
+kubectl get pods -n ingress-nginx 
+kubectl scale deployments.apps -n ingress-nginx ingress-nginx-controller --replicas 1
+kubectl get pods -n ingress-nginx 
+kubectl edit ingress web-ingress 
+kubectl exec -it web1 -- sh
+vi replica-set.yaml
+kubectl apply -f replica-set.yaml
+kubectl get rs,po
+kubectl scale rs frontend --replicas 1
+kubectl get rs,po
+vi test-deployment.yaml
+kubectl apply -f test-deployment.yaml
+kubectl get pods
+kubectl get pods,rs,deploy
+kubectl delete pod pod/nginx-deployment-86dcfdf4c6-b98m5
+kubectl delete pod nginx-deployment-86dcfdf4c6-b98m5
+kubectl get pods,rs,deploy
+cp -rp test-deployment.yaml test-replicaset.yaml
+vi test-replicaset.yaml
+kubectl apply -f test-replicaset.yaml
+kubectl get pods,rs,deploy
+vi test-deployment.yaml
+kubectl edit deployments.apps nginx-deployment 
+kubectl get deployments.apps o
+kubectl get deployments.apps 
+kubectl get pod
+kubectl set image deployment nginx-deployment nginx=nginx:latest --record
+kubectl get pod
+kubectl describe pod nginx-deployment-54b6f7ddf9-26tg9
+kubectl rollout status deployment nginx-deployment
+kubectl rollout history deployment nginx-deployment
+kubectl rollout status deployment nginx-deployment
+kubectl rollout history deployment nginx-deployment
+kubectl annotate deployment/nginx-deployment kubernetes.io/change-cause="change nginx version from latest (bad) to 1.14.2 (good)"
+kubectl rollout history deployment nginx-deployment
+kubectl describe deployments.apps nginx-deployment 
+kubectl edit deployments.apps nginx-deployment 
+kubectl rollout status deployment nginx-deployment
+kubectl get pods
+kubectl rollout history deployment nginx-deployment
+kubectl rollout undo deployment/nginx-deployment --to-revision=4
+kubectl rollout history deployment nginx-deployment
+kubectl edit deployments.apps nginx-deployment 
+kubectl get pods
+kubectl set image deployment nginx-deployment nginx=nginx:broken --record
+kubectl set image deployment nginx-deployment nginx=nginx:1.14.2
+kubectl edit deployments.apps nginx-deployment 
+kubectl set image deployment nginx-deployment nginx=nginx:broken
+kubectl get pods -o wide
+kubectl expose deploy nginx-deployment --name test-deploy --port 80
+kubectl get svc,ep,pod
+kubectl delete deployments.apps nginx-deployment 
+kubectl get svc,ep,pod
+kubectl get pod,deploy
+kubectl get pod --show-
+l
+kubectl get pod --show-labels 
+kubectl label pod sidecar-pod country=poland
+kubectl label pod sidecar-pod country=france
+kubectl get pod --show-labels 
+kubectl label pod sidecar-pod app=test
+kubectl get pod --show-labels 
+kubectl get nodes --show-labels 
+kubectl get pod -l 
+kubectl get nodes --show-labels 
+kubectl get pod --show-labels 
+kubectl get pods -l app=test
+kubectl get pods -l 'web in(run)'
+kubectl get pods -l 'web1 in(run)'
+kubectl get pods -l 'run in(web)'
+kubectl get pods -l 'tier in (frontend)'
+kubectl get pods -l 'run in (web)'
+kubectl get pods -l 'run in (web1)'
+kubectl get pods -l 'run in (web*)'
+kubectl get pods -l 'run in (web),run in (web1)'
+kubectl get pods -l run
+kubectl get pods -l app
+kubectl get pods -l 'app'
+kubectl get pods -l 'app,app notin(test)'
+kubectl annotate pod test-dns description="Test pod for DNS service"
+kubectl describe pod test-dns | grep -i annota
+kubectl annotate pod test-dns description="Test pod"
+kubectl annotate pod test-dns description="Test pod" --overwrite
+kubectl describe pod test-dns | grep -i annota
+kubectl annotate pod test-dns description-
+kubectl describe pod test-dns | grep -i annota
+kubectl get pods -o wide
+kubectl label nodes worker01 env=prod
+kubectl label nodes worker02 env=dev
+ls -la
+cat wide
+rm wide
+ls
+cp -rp nginx-pod.yaml prod-pod.yaml
+vi prod-pod.yaml
+kubectl apply -f prod-pod.yaml 
+kubectl get pod -o wide
+cp -rp  prod-pod.yaml dev-pod.yaml
+vi dev-pod.yaml
+kubectl apply -f dev-pod.yaml
+kubectl get pod -o wide
+kubectl label nodes worker02 env-
+kubectl recreate --force  -f dev-pod.yaml
+kubectl replace --force  -f dev-pod.yaml
+kubectl get pod -o wide
+kubectl events
+history
+history | awk '$1 > 284' | cut -c 8- > ../day2-history.txt
