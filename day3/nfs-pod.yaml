@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nfs-pod
+spec:
+  nodeName: worker01
+  containers:
+  - image: registry.k8s.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /nfs-data
+      name: test-volume
+  volumes:
+  - name: test-volume
+    nfs:
+      server: 172.16.2.112
+      path: /var/nfs-share

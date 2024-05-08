@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap
+data:
+  key1: value1
+  key2: PARAM-2
+  key3: |
+    to jest
+    moj content pliku 
+    wielolinijkowy
+  config.json: |
+    {
+      "attr1": "value1"
+    }

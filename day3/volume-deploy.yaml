@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: volume
+  name: volume-deploy
+spec:
+  replicas: 11
+  selector:
+    matchLabels:
+      app: volume
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: volume
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+        volumeMounts:
+        - mountPath: "/tmp"
+          name: storage
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: test-pvc
+
